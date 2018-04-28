@@ -93,7 +93,7 @@ public class Square extends FilledRect {
 	//Makes sure values are between specified range
 	
 	public void setValue(int value) {
-		if (value > 0 && value <= 4)
+		if (value >= 0 && value <= 4)
 			this.value = value;
 		else this.value = 0;
 	}
@@ -107,22 +107,22 @@ public class Square extends FilledRect {
 		if (row % 2 == 0) {
 	    		if (col % 2 == 0) {
 	    			square.setColor(c2);
-	    			System.out.println(1);
+	    			//System.out.println(1);
 	    		}
 	    
 	    		else {
 	    			square.setColor(c1);
-	    			System.out.println(2);
+	    			//System.out.println(2);
 	    		}
 	    }
 	    else {
 	    		if (col % 2 == 0) {
 	    			square.setColor(c1);
-	    			System.out.println(3);
+	    			//System.out.println(3);
 	    		}
 	    		else { 
 	    			square.setColor(c2);
-	    			System.out.println(4);
+	    			//System.out.println(4);
 	    		}
 	    }    
 	    

@@ -127,8 +127,8 @@ public class Piece extends FilledOval {
 	public void setLoc(int row, int col) {
 		if (row >= 1 & row <= 8)
 			if (col >= 1 & col <= 8) {
-				this.row = row;
-				this.col = col;
+				//this.row = row;
+				//this.col = col;
 				loc = new Location(row, col);
 			}
 	}
@@ -139,16 +139,20 @@ public class Piece extends FilledOval {
 	
 	public void moveTo(Square[][] squares, int row, int col) {
 		//Col is x, row is Y
-		//if (row >= 1 && row <= 8 && col >= 1 && col <= 8)
-				//squares[this.row][this.col].setValue(0);
-		
+		if ((this.row >= 1 && this.row <= 8) && (this.col >= 1 && this.col <= 8)) {
+		squares[this.col][this.row].setValue(0);
+		}
+		else System.out.print("Something went wrong");
 		//sets the position of the piece using the square it is on
-		setLoc(col * size,row * size);//squares[row][col].getRow(), squares[row][col].getCol());
 		
-		circle.moveTo(col * size - size, row * size - size);
+		setRow(row);
+		setCol(col);
+		setLoc(row * size, col * size);//squares[row][col].getRow(), squares[row][col].getCol());
+		
+		circle.moveTo(row * size - size, col * size - size);
 		
 		//sets the value of the square using the piece on the square
-		squares[row][col].setValue(value);
+		squares[col][row].setValue(value);
 	}
 	
 	public static void startingPos(Piece[][] pieces, Square[][] squares) {
@@ -166,13 +170,13 @@ public class Piece extends FilledOval {
 			
 			if (row % 2 == 1) {
 				col++;
-				pieces[0][j].moveTo(squares, row, col);
+				pieces[0][j].moveTo(squares, col, row);
 				col++;
 			}
 				
 			//if the row is even, set the pieces to col 2, 4, 6 , 8
 			else {
-				pieces[0][j].moveTo(squares, row, col);
+				pieces[0][j].moveTo(squares, col, row);
 				col+=2;
 			}
 		}
@@ -190,13 +194,13 @@ public class Piece extends FilledOval {
 			
 			if (row % 2 == 1) {
 				col++;
-				pieces[1][j].moveTo(squares, row, col);
+				pieces[1][j].moveTo(squares, col, row);
 				col++;
 			}
 				
 			//if the row is even, set the pieces to col 2, 4, 6 , 8
 			else {
-				pieces[1][j].moveTo(squares, row, col);
+				pieces[1][j].moveTo(squares, col, row);
 				col+=2;
 			}
 		}
@@ -219,17 +223,40 @@ public class Piece extends FilledOval {
 		int rowDif = row - squares.getRow(), colDif = col - squares.getCol();
 		
 		//if the square is not empty, you cannot move there!!!
-		if (squares.getValue() != 0) 
+		if (squares.getValue() != 0) { 
+			//System.out.println(rowDif);
+			//System.out.println(colDif);
+			System.out.println("AAA");
 			return false;
+		}
 		
 		//if the move is directly vertical or horizontal, it is illegal
-		else if (rowDif == 0 || colDif == 0)
+		if (rowDif == 0 || colDif == 0) {
+			//System.out.println(rowDif);
+			//System.out.println(colDif);
+			System.out.println("BBB");
 			return false;
+		}
 		
+		
+		double dif = rowDif + 0.0 / colDif;
 		//if the move is not diagonal, it is illegal
-		else if (rowDif / colDif != 1 || rowDif / colDif != -1)
-			return false;
+		if (dif == 1 || dif == -1) {
+			//System.out.println("Row dif is " + rowDif);
+			//System.out.println("Col dif is " + colDif);
+			System.out.println(dif);
+			System.out.println("CCC");
+			return true;
+		}
 		
+		else {
+			//System.out.println("Row dif is " + rowDif);
+			//System.out.println("Col dif is " + colDif);
+			System.out.println(dif);
+			System.out.println("DDD");
+			return false;
+		}
+		/*
 		
 		
 		//blue regular piece
@@ -339,7 +366,7 @@ public class Piece extends FilledOval {
 		}
 		
 		return false;
-		
+		*/
 	}
 	
 	

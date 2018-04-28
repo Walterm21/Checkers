@@ -34,7 +34,7 @@ public class Game extends WindowController {
 		//making the board
 		for (int row = 1; row <= 8; row++) {
 			for (int col = 1; col <= 8; col++) {
-				board[row][col] = new Square(0, row, col, new Location((row - 1) * size, (col - 1) * size), size, canvas);
+				board[row][col] = new Square(0, row, col, new Location((col - 1) * size, (row - 1) * size), size, canvas);
 				board[row][col].setColor(Color.BLACK, Color.RED);
 			}
 		}
@@ -54,19 +54,33 @@ public class Game extends WindowController {
 		//System.out.println(board[4][5].getRow() + "\t" + board[2][7].getCol() + "\t" + board[8][8].getValue());
 		
 		Piece.startingPos(pieces, board);
+		
+		System.out.println(board[1][1].getValue());
+		board[1][1].setValue(0);
+		System.out.println(board[1][1].getValue());
 	}
 	
 	//onMousePress and onMouseRelease will be the two main methods, and the program will react differently depending on where and when the ouse is pressed and released
-	
+	public void onMouseClick(Location point) {
+		for (int row = 1; row <= 8; row++) {
+			for (int col = 1; col <= 8; col++) {
+				if (board[row][col].contains(point)) {
+					System.out.println("Board row is " + board[row][col].getRow() + " Col is " + board[row][col].getCol());
+					System.out.println(board[row][col].getValue());
+				}
+			}
+		}
+	}
 	public void onMousePress(Location point) {
 		lastPoint = point;
 		//if (turn == 0) {
 			for (int j = 0; j < 12; j++) {
 				if (pieces[turn][j].getOnBoard()) {
 					if (pieceSelect = pieces[turn][j].contains(point)) {
+						System.out.println("Piece Col is " + pieces[turn][j].getCol() + "\t row is " + pieces[turn][j].getRow());
 						selectedPiece = j;
 						return;
-					}
+					} 
 				}
 			}
 		
@@ -98,15 +112,17 @@ public class Game extends WindowController {
 	
 	
 	public void onMouseRelease(Location point) {
+		
 		//if a piece has been selected
 		if (pieceSelect) {
+			
 			//loops through squares to see where piece was released
 			for (int row = 1; row <= 8; row++) {
 				for (int col = 1; col <= 8; col++) {
 					if (board[row][col].contains(point)) {
-						
+						//System.out.println(board[row][col].getValue());
 						//does not seem to allow any move
-						//if (pieces[turn][selectedPiece].isValidMove(board[row][col], board)) { 
+						if (pieces[turn][selectedPiece].isValidMove(board[row][col], board)) { 
 							//had to switch col and row, could be a concern later
 							pieces[turn][selectedPiece].moveTo(board, col, row);
 							
@@ -116,7 +132,9 @@ public class Game extends WindowController {
 							
 							//will check if any valid moves are available
 							return;
-						
+						}
+						else
+							pieces[turn][selectedPiece].moveTo(board, pieces[turn][selectedPiece].getRow(), pieces[turn][selectedPiece].getCol());
 						//}
 					}
 			
